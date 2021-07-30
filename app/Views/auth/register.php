@@ -56,6 +56,14 @@
                     <div class="card-body">
                         <form action="<?= base_url('auth/save') ?>" method="post" style="margin-bottom:20px">
                         <?= csrf_field() ?>
+                        <?php if(!empty(session()->getFlashdata('fail'))) : ?>
+                            <div class="alert alert-danger"><?= session()->getFlashdata('fail'); ?></div>
+                        <?php endif ?>
+
+                        <?php if(!empty(session()->getFlashdata('success'))) : ?>
+                            <div class="alert alert-success"><?= session()->getFlashdata('success'); ?></div>
+                        <?php endif ?>
+
                             <div class="form-group p-1">
                                 <label for="Matricula">Matricula</label>
                                 <input type="text" class="form-control" name="Matricula" placeholder="Ingresa tu Matricula" value="<?= set_value('Matricula'); ?>">
