@@ -1,3 +1,6 @@
+<?php
+include_once(ROOTPATH.'public\imagenes\translate.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +64,7 @@
                         <th scope="row"><?= $row->Num_Cita ?></th>
                         <td><?= $row->Nombre ?></td>
                         <?php $fecha = date("jS F, Y", strtotime($row->Fecha_Cita)) ?>
-                        <td><?= $fecha //translate($fecha, 'en','es') ?></td>
+                        <td><?= traducir('en', 'es', $fecha) ?></td>
                         <td><?= $row->Hora ?></td>
                         <td><?= $row->Aula ?></td>
                         <td><?= $row->Telefono ?></td>
