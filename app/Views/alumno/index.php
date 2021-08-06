@@ -38,22 +38,21 @@
         <div class="row text-center p-3">
             <h2>Citas pendientes</h2>
         </div>
-        <div class="col"><a class="btn btn-primary" href="<?= site_url('docente/cita') ?>" role="button">Añadir cita</a></div>
+        
         <div class="row" style="margin-top:5px">
+        <p translate="yes">Hello</p>
         <center>
             <div class="col-mx-auto">
             <table class="table table-success table-striped table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Cita</th>
-                        <th scope="col">Alumno</th>
-                        <th scope="col">Tutor</th>
+                        <th scope="col">Docente</th>
                         <th scope="col">Fecha de la cita</th>
                         <th scope="col">Hora de la cita</th>
                         <th scope="col">Aula</th>
                         <th scope="col">Telefono</th>
                         <th scope="col">Estado</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,16 +60,12 @@
                     <tr>
                         <th scope="row"><?= $row->Num_Cita ?></th>
                         <td><?= $row->Nombre ?></td>
-                        <td><?= $row->Tutor ?></td>
-                        <td><?= $row->Fecha_Cita ?></td>
+                        <?php $fecha = date("jS F, Y", strtotime($row->Fecha_Cita)) ?>
+                        <td><?= $fecha //translate($fecha, 'en','es') ?></td>
                         <td><?= $row->Hora ?></td>
                         <td><?= $row->Aula ?></td>
                         <td><?= $row->Telefono ?></td>
                         <td><?= $row->Estado_Cita ?></td>
-                        <td>
-                            <a class="btn btn-danger" href="#" role="button">Cancelar</a>
-                            <a class="btn btn-info" href="#" role="button">Reagendar</a>
-                        </td>
                     </tr>
                     <?php } ?>
                 </tbody>
