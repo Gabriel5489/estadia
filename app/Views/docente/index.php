@@ -1,3 +1,6 @@
+<?php
+include_once(ROOTPATH.'public\imagenes\translate.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +37,7 @@
         </div>
     </div>
     </nav>
-    <div class="container my-auto px-1 py-1">
+    <div class="container-fluid px-4">
         <div class="row text-center p-3">
             <h2>Citas pendientes</h2>
         </div>
@@ -50,6 +53,7 @@
                         <th scope="col">Tutor</th>
                         <th scope="col">Fecha de la cita</th>
                         <th scope="col">Hora de la cita</th>
+                        <th scope="col">Area</th>
                         <th scope="col">Aula</th>
                         <th scope="col">Telefono</th>
                         <th scope="col">Estado</th>
@@ -62,14 +66,16 @@
                         <th scope="row"><?= $row->Num_Cita ?></th>
                         <td><?= $row->Nombre ?></td>
                         <td><?= $row->Tutor ?></td>
-                        <td><?= $row->Fecha_Cita ?></td>
+                        <?php $fecha = date("jS F, Y", strtotime($row->Fecha_Cita)) ?>
+                        <td><?= traducir('en', 'es', $fecha) ?></td>
                         <td><?= $row->Hora ?></td>
+                        <td><?= $row->Nombre_Area ?></td>
                         <td><?= $row->Aula ?></td>
                         <td><?= $row->Telefono ?></td>
                         <td><?= $row->Estado_Cita ?></td>
                         <td>
-                            <a class="btn btn-danger" href="#" role="button">Cancelar</a>
-                            <a class="btn btn-info" href="#" role="button">Reagendar</a>
+                            <a class="btn btn-danger" onclick="cancelar(<?= $row->Num_Cita ?>)" role="button">Cancelar</a>
+                            <a class="btn btn-info" href="<?= site_url('docente/reagendar'); ?>?idCita=<?= $row->Num_Cita ?>" role="button">Reagendar</a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -80,5 +86,14 @@
         </div>
     </div>
 </body>
+<script>
+    var url = "<?= site_url('docente/cancelar') ?>";
+    function cancelar(id){
+        if(window.confirm("¿Estás seguro de cancelar esta cita?")){
+            //console.log(url+ "?id=" + id);
+            window.location.href = url + "?id=" + id;
+        }
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </html>

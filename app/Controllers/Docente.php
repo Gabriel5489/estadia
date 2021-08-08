@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+include_once (ROOTPATH.'public\imagenes\translate.php');
 
 class Docente extends BaseController
 {
@@ -98,6 +99,70 @@ class Docente extends BaseController
             }else{
                 return redirect()->to('docente/')->with('success', 'Te has registrado correctamente');
             }
+        }
+    }
+
+    public function reagendar(){
+        
+        $db = \Config\Database::connect();
+        $idCita = $this->request->getGet('idCita');
+        
+        $result=$db->query('CALL spGetCita('.$idCita.')')->getResult();
+
+        $datos=[
+            'title'=>'Datos cita',
+            'Cita'=>$result[0]
+        ];
+        return view('docente/reagendar', $datos);
+    }
+
+    public function updateCita(){
+        $db = \Config\Database::connect();
+        $validation= $this->validate([
+            'Fecha'=>[
+                'rules'=>'required|valid_date',
+                'errors'=>[
+                    'required'=>'El campo Fecha es obligatorio',
+                    'valid_date'=>'Ingresa una fecha valida'
+                ]
+            ],
+            'Hora'=>[
+                'rules'=>'required',
+                'errors'=>[
+                    'required'=>'El campo Hora es obligatorio'
+                ]
+            ]
+        ]);
+        
+        $idCita = $this->request->getPost('idCita');
+        $result=$db->query('CALL spGetCita('.$idCita.')')->getResult();
+        if(!$validation){
+            return view('docente/reagendar', ['validation'=>$this->validator, 'Cita'=>$result[0]]);
+        }else{
+            $fecha = $this->request->getPost('Fecha');
+            $hora = $this->request->getPost('Hora');
+            $query = "CALL spReagendar('".$fecha."', '".$hora."',".$idCita.");";
+            $result=$db->query($query);
+
+            if(!$result){
+               return redirect()->back()->with('fail', 'Algo salio mal');
+            }else{
+               return redirect()->to('docente/')->with('success', 'Actualizado correctamente');
+            }
+        }
+    }
+
+    public function cancelar(){
+        
+        $db = \Config\Database::connect();
+        $idCita = $this->request->getGet('id');
+        $query = "CALL spCancelar(".$idCita.");";
+        $result=$db->query($query);
+
+        if(!$result){
+            return redirect()->back()->with('fail', 'Algo salio mal');
+        }else{
+            return redirect()->to('docente/')->with('success', 'Actualizado correctamente');
         }
     }
 }

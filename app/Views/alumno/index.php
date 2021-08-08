@@ -43,7 +43,6 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
         </div>
         
         <div class="row" style="margin-top:5px">
-        <p translate="yes">Hello</p>
         <center>
             <div class="col-mx-auto">
             <table class="table table-success table-striped table-bordered">
@@ -53,6 +52,7 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <th scope="col">Docente</th>
                         <th scope="col">Fecha de la cita</th>
                         <th scope="col">Hora de la cita</th>
+                        <th scope="col">Area</th>
                         <th scope="col">Aula</th>
                         <th scope="col">Telefono</th>
                         <th scope="col">Estado</th>
@@ -66,6 +66,7 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <?php $fecha = date("jS F, Y", strtotime($row->Fecha_Cita)) ?>
                         <td><?= traducir('en', 'es', $fecha) ?></td>
                         <td><?= $row->Hora ?></td>
+                        <td><?= $row->Nombre_Area ?></td>
                         <td><?= $row->Aula ?></td>
                         <td><?= $row->Telefono ?></td>
                         <td><?= $row->Estado_Cita ?></td>
