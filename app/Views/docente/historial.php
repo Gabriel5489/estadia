@@ -29,10 +29,10 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="<?= base_url('docente/') ?>">Home</a>
+                <a class="nav-link" aria-current="page" href="<?= base_url('docente/') ?>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="<?= base_url('docente/historial') ?>">Historial</a>
+                <a class="nav-link active" aria-current="page" href="<?= base_url('docente/historial') ?>">Historial</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Cerrar Sesión</a>
@@ -43,21 +43,12 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
     </nav>
     <div class="container-fluid px-4">
         <div class="row text-center p-3">
-            <h2>Citas pendientes</h2>
+            <h2>Historial de citas</h2>
         </div>
         <div class="row">
-            <div class="col"><a class="btn btn-primary" href="<?= site_url('docente/cita') ?>" role="button">Añadir cita</a></div>
-            <div class="col align-self-end">
-                        <?php if(!empty(session()->getFlashdata('success'))) : ?>
-                            <div id="toast" class="toast align-items-center text-white bg-success border-1" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="d-flex">
-                                <div class="toast-body">
-                                <?= session()->getFlashdata('success'); ?>
-                                </div>
-                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                                </div>
-                            </div>
-                        <?php endif ?>
+            <div class="col">
+                <a class="btn btn-danger" href="<?= site_url('docente/historial') ?>?estado=Cancelado" role="button">Ver citas canceladas</a>
+                <a class="btn btn-info" href="<?= site_url('docente/historial') ?>" role="button">Ver todas las citas</a>
             </div>
         </div>
         <div class="row" style="margin-top:5px">
@@ -74,7 +65,6 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <th scope="col">Área</th>
                         <th scope="col">Aula</th>
                         <th scope="col">Estado</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,10 +79,6 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <td><?= $row->Nombre_Area ?></td>
                         <td><?= $row->Aula ?></td>
                         <td><?= $row->Estado_Cita ?></td>
-                        <td>
-                            <a class="btn btn-danger" onclick="cancelar(<?= $row->Num_Cita ?>)" role="button">Cancelar</a>
-                            <a class="btn btn-info" href="<?= site_url('docente/reagendar'); ?>?idCita=<?= $row->Num_Cita ?>" role="button">Reagendar</a>
-                        </td>
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -100,21 +86,21 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="<?= site_url('docente') ?>" tabindex="-1">Primero</a>
+                        <a class="page-link" href="<?= site_url('docente/historial') ?>?estado=<?= $estado ?>" tabindex="-1">Primero</a>
                     </li>
                     <?php for($i=1; $i<=$paginas; $i++){ ?>
                         <?php if($i==1){ ?>
                             <li class="page-item" id="1">
-                                <a class="page-link" href="<?= site_url('docente') ?>"><?= $i ?></a>
+                                <a class="page-link" href="<?= site_url('docente/historial') ?>"><?= $i ?></a>
                             </li>
                         <?php }else{ ?>
                             <li class="page-item" id="<?= $i ?>">
-                                <a class="page-link" href="<?= site_url('docente') ?>?page=<?= $i ?>"><?= $i ?></a>
+                                <a class="page-link" href="<?= site_url('docente/historial') ?>?estado=<?= $estado ?>&page=<?= $i ?>"><?= $i ?></a>
                             </li>
                         <?php } ?>
                     <?php } ?>
                     <li class="page-item">
-                        <a class="page-link" href="<?= site_url('docente') ?>?page=<?= $paginas ?>">Ultimo</a>
+                        <a class="page-link" href="<?= site_url('docente/historial') ?>?estado=<?= $estado ?>&page=<?= $paginas ?>">Ultimo</a>
                     </li>
                 </ul>
             </nav>

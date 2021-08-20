@@ -35,10 +35,13 @@ if(strlen($hora) == 1){
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Registrarse</a>
+                <a class="nav-link" aria-current="page" href="<?= base_url('docente/') ?>">Home</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Iniciar Sesión</a>
+                <a class="nav-link" aria-current="page" href="<?= base_url('docente/historial') ?>">Historial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Cerrar Sesión</a>
             </li>
         </ul>
         </div>
@@ -53,7 +56,6 @@ if(strlen($hora) == 1){
                         <h2>Reagendar Cita</h2>
                     </div>
                     <div class="card-body">
-                        <a href="<?= base_url('docente/') ?>"><-Regresar</a>
                         <form action="<?= base_url('docente/updateCita') ?>" method="post" style="margin-bottom:20px">
                         <?= csrf_field() ?>
                             <div class="form-group p-1" hidden>
@@ -78,6 +80,7 @@ if(strlen($hora) == 1){
                                 <button class="btn btn-primary btn-block" type="submit">Registrar</button>
                             </div>
                         </form>
+                        <a href="<?= base_url('docente/') ?>"><-Regresar</a>
                     </div>
                 </div>
             </div>

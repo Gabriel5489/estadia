@@ -13,13 +13,22 @@ class Docente extends BaseController
 	public function index()
 	{
         $db = \Config\Database::connect();
+        $paginacion = $db->query('SELECT * FROM view_citas_docente WHERE idDocente=1234567890 AND Estado_Cita="Pendiente"');
 
-        $result=$db->query('CALL spGetCitaDocente(1234567890);')->getResult();
-        //print_r($result);
+        $filas= $paginacion->getNumRows();
+        $paginas = ceil($filas/5);
+        $page=0;
+        if(isset($_GET['page'])){
+            $page = $_GET['page'] * 5;
+        }
+
+        $result=$db->query('CALL spGetCitaDocente(1234567890,'.$page.');');
 
         $datos = [
             'title'=>'Datos de la cita',
-            'info'=>$result
+            'info'=>$result->getResult(),
+            'paginas'=>$paginas,
+            'paginaActual'=>$page
         ];
         //print_r($datos);
 
@@ -95,13 +104,14 @@ class Docente extends BaseController
             $hora = $this->request->getPost('Hora');
             $area = $this->request->getPost('Area');
 
-            $query = "CALL spAddCita(".$matricula.", 1234567890, '".$fecha."',".$area.", '".$hora."');";
-            $result = $db->query($query);
+            $result3 = $db->query('CALL spVerificar('.$matricula.',"'.$fecha.'","'.$hora.'")');
 
-            if(!$result){
-                return redirect()->back()->with('fail', 'Algo salio mal');
+            if($result3->getNumRows() > 0){
+                return view('docente/cita', ['validation'=>$this->validator, 'info'=>$result, 'alumnos'=>$result2, 'mensaje'=>"El alumno ya esta registrado en esa fecha y hora, elija otra."]);
             }else{
-                return redirect()->to('docente/')->with('success', 'Te has registrado correctamente');
+                $query = "CALL spAddCita(".$matricula.", 1234567890, '".$fecha."',".$area.", '".$hora."');";
+                $db->query($query);
+                return redirect()->to('docente/')->with('success', 'Cita añadida');
             }
         }
     }
@@ -168,6 +178,36 @@ class Docente extends BaseController
         }else{
             return redirect()->to('docente/')->with('success', 'Actualizado correctamente');
         }
+    }
+
+    public function historial(){
+        $db = \Config\Database::connect();
+        $paginacion = $db->query('SELECT * FROM view_citas_docente WHERE idDocente=1234567890');
+
+        $filas= $paginacion->getNumRows();
+        $paginas = ceil($filas/5);
+        $page=0;
+        $estado = "Todos";
+        if(isset($_GET['page'])){
+            $page = $_GET['page'] * 5;
+        }
+
+        if(isset($_GET['estado'])){
+            $estado = $_GET['estado'];
+        }
+
+        $result=$db->query('CALL spGetHistorial(1234567890,"'.$estado.'", '.$page.');');
+
+        $datos = [
+            'title'=>'Datos de la cita',
+            'info'=>$result->getResult(),
+            'paginas'=>$paginas,
+            'paginaActual'=>$page,
+            'estado'=>$estado
+        ];
+        //print_r($datos);
+
+		return view('docente/historial', $datos);
     }
 }
 

@@ -17,8 +17,11 @@ function traducir($from, $to, $text){
 
 
     $response_a = json_decode($output);
-
-    return $response_a[0][0][0];
+    if(isset($response_a[0][0][0])){
+        return $response_a[0][0][0];
+    }else{
+        return $text;
+    }
 }
 
 // echo '<hr><h2>Translated</h2>';
