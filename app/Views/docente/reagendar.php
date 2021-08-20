@@ -53,6 +53,7 @@ if(strlen($hora) == 1){
                         <h2>Reagendar Cita</h2>
                     </div>
                     <div class="card-body">
+                        <a href="<?= base_url('docente/') ?>"><-Regresar</a>
                         <form action="<?= base_url('docente/updateCita') ?>" method="post" style="margin-bottom:20px">
                         <?= csrf_field() ?>
                             <div class="form-group p-1" hidden>

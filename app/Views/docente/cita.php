@@ -6,6 +6,8 @@ if(strlen($hora) == 1){
     $hora = "0".$hora;
 }
 
+$miArray = (array) $alumnos;
+$json = json_encode($miArray);
 
 ?>
 <!DOCTYPE html>
@@ -17,6 +19,12 @@ if(strlen($hora) == 1){
     <title>Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<link rel="stylesheet" href="<?= base_url('CSS/style.css') ?>">
+<script src="<?= base_url('zelect-master/zelect.js') ?>"></script>
+<script src="<?= base_url('scripts/mi-script.js') ?>"></script>
+
 <style>
     .form-group{
         text-align:left;
@@ -57,9 +65,18 @@ if(strlen($hora) == 1){
                         <?= csrf_field() ?>
 
                             <div class="form-group p-1">
-                                <label for="Matricula">Matricula</label>
-                                <input type="text" class="form-control" name="Matricula" placeholder="Ingresa tu Matricula" value="<?= set_value('Matricula') ?>">
-                                <span class="text-danger"><?= isset($validation) ? display_error($validation, 'Matricula') : "" ?></span>
+                                <section id="intro">
+                                    <select name="Matricula" onchange="nombre()" id="Matricula">
+                                            <option value="" selected>---Alumnos---</optin>
+                                            <?php foreach($alumnos as $fila){ ?>
+                                                <option value="<?= $fila->intMatricula ?>" id="<?= $fila->intMatricula ?>"><?= $fila->Nombre ?></option>
+                                                
+                                            <?php } ?>
+                                    </select>
+                                    <span class="text-danger"><?= isset($validation) ? display_error($validation, 'Matricula') : "" ?></span>
+                                    
+                                </section>
+                                <h5 id="mat" style="color: green"></h5>
                             </div>
                             <div class="form-group p-1">
                                 <label for="Fecha">Fecha de la cita</label>
@@ -81,7 +98,7 @@ if(strlen($hora) == 1){
                                 <span class="text-danger"><?= isset($validation) ? display_error($validation, 'Hora') : "" ?></span>
                             </div>
                             <div class="form-group p-1" style="text-align: center">
-                                <button class="btn btn-primary btn-block" type="submit">Registrar</button>
+                                <button class="btn btn-primary btn-block" type="submit" onclick="verificar()">Registrar</button>
                             </div>
                         </form>
                     </div>
@@ -92,10 +109,39 @@ if(strlen($hora) == 1){
     </div>
 </body>
 <script>
-    const id = <?= set_value('Area') ?>;
+    const tablero = JSON.stringify(<?= $json ?>);
+    const id = <?= isset($validation) ? set_value('Area') : 0 ?>;
     if(id){
+        console.log("Entro al if");
         const opcion = document.getElementById(id);
         opcion.setAttribute('selected','');
+    }
+
+    function verificar(){
+        var select = document.getElementById('Matricula').value;
+        console.log(select);
+        if(select==""){
+            return false;
+        }
+    }
+
+    function nombre(){
+        var select = document.getElementById('Matricula').value;
+        var tutor;
+        var texto = document.getElementById('mat');
+        if(select!=""){
+            var opcion = document.getElementById(select).textContent;
+            texto.innerText = "Matricula: " + select;
+        }else{
+            texto.innerText = "Selecciona una opción valida"
+        }
+        // for(var i = 0; i<tablero.length; i++){
+        //     console.log(tablero[0][1]);
+        //     if(tablero[i]['intMatricula']==select){
+        //         tutor = [i]['Nombre'];
+        //     }
+        // }
+        
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="./zelect.js"></script>
+  <link rel="stylesheet" href="http://css.cdn.tl/normalize.css" />
+  
+  <script>
+    $(setup)
+
+    function setup() {
+      $('#intro select').zelect({ placeholder:'Plz select...' })
+    }
+  </script>
+</head>
+<body>
+  <section id="intro">
+    <h2>Combo</h2>
+    <select>
+      <option>I really have</option>
+      <option>to think of some</option>
+      <option>significantly more</option>
+      <option>relevant example data</option>
+      <option>here.</option>
+      <option>Also, need more and longer items</option>
+      <option>to demo scroll</option>
+    </select>
+  </section>
+</body>
+</html>

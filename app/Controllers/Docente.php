@@ -30,11 +30,13 @@ class Docente extends BaseController
         $db = \Config\Database::connect();
 
         $result=$db->query('CALL spGetArea();')->getResult();
+        $result2=$db->query('CALL spGetAlumnos();')->getResult();
         //print_r($result);
 
         $datos = [
             'title'=>'Datos del area',
-            'info'=>$result
+            'info'=>$result,
+            'alumnos'=>$result2
         ];
         return view('docente/cita', $datos);
     }
@@ -75,15 +77,17 @@ class Docente extends BaseController
         $db = \Config\Database::connect();
 
         $result=$db->query('CALL spGetArea();')->getResult();
+        $result2=$db->query('CALL spGetAlumnos();')->getResult();
         //print_r($result);
 
         $datos = [
             'title'=>'Datos del area',
-            'info'=>$result
+            'info'=>$result,
+            'alumnos'=>$result2
         ];
 
         if(!$validation){
-            return view('docente/cita', ['validation'=>$this->validator, 'info'=>$result]);
+            return view('docente/cita', ['validation'=>$this->validator, 'info'=>$result, 'alumnos'=>$result2]);
         }else{
             $db = \Config\Database::connect();
             $matricula = $this->request->getPost('Matricula');

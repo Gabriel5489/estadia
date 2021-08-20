@@ -53,9 +53,8 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <th scope="col">Tutor</th>
                         <th scope="col">Fecha de la cita</th>
                         <th scope="col">Hora de la cita</th>
-                        <th scope="col">Area</th>
+                        <th scope="col">Área</th>
                         <th scope="col">Aula</th>
-                        <th scope="col">Telefono</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                     </tr>
@@ -71,7 +70,6 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
                         <td><?= $row->Hora ?></td>
                         <td><?= $row->Nombre_Area ?></td>
                         <td><?= $row->Aula ?></td>
-                        <td><?= $row->Telefono ?></td>
                         <td><?= $row->Estado_Cita ?></td>
                         <td>
                             <a class="btn btn-danger" onclick="cancelar(<?= $row->Num_Cita ?>)" role="button">Cancelar</a>
@@ -89,7 +87,7 @@ include_once(ROOTPATH.'public\imagenes\translate.php');
 <script>
     var url = "<?= site_url('docente/cancelar') ?>";
     function cancelar(id){
-        if(window.confirm("¿Estás seguro de cancelar esta cita?")){
+        if(window.confirm("¿Estás seguro de cancelar la cita número "+ id +" ?")){
             //console.log(url+ "?id=" + id);
             window.location.href = url + "?id=" + id;
         }
